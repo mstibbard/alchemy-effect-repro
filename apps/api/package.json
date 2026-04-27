@@ -1,0 +1,19 @@
+{
+	"name": "@repo/api",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"deploy": "alchemy deploy",
+		"dev": "alchemy dev",
+		"test": "echo 'No tests yet'",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"effect": "catalog:"
+	},
+	"devDependencies": {
+		"@repo/tsconfig": "workspace:*",
+		"alchemy": "catalog:"
+	}
+}
