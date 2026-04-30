@@ -7,8 +7,8 @@
 			"packages/*"
 		],
 		"catalog": {
-			"alchemy": "2.0.0-beta.15",
-			"effect": "4.0.0-beta.48"
+			"alchemy": "2.0.0-beta.24",
+			"effect": "4.0.0-beta.58"
 		}
 	},
 	"scripts": {
@@ -24,8 +24,8 @@
 		"typecheck": "turbo run typecheck"
 	},
 	"devDependencies": {
-		"@effect/platform-bun": "4.0.0-beta.48",
-		"@effect/platform-node": "4.0.0-beta.48",
+		"@effect/platform-bun": "4.0.0-beta.58",
+		"@effect/platform-node": "4.0.0-beta.58",
 		"@effect/tsgo": "0.5.1",
 		"@types/bun": "1.3.13",
 		"@typescript/native-preview": "7.0.0-dev.20260424.2",
