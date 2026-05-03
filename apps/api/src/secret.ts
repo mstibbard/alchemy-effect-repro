@@ -1,3 +1,4 @@
+import { Random } from "alchemy";
 import { adopt } from "alchemy/AdoptPolicy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import { Effect, Redacted } from "effect";
@@ -9,6 +10,6 @@ export const ExampleSecret = Effect.gen(function* () {
 
 	return yield* Cloudflare.Secret("REPRO_SECRET_NUMBER", {
 		store,
-		value: Redacted.make(String(Math.random())),
+		value: Redacted.make(Random("ReproSecretNumberValue")),
 	});
 });
