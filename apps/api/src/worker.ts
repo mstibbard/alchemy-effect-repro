@@ -20,7 +20,7 @@ const AppLive = Layer.mergeAll(
 	}),
 ).pipe(Layer.provide(TaskRpcLive), Layer.provide(RpcSerialization.layerJson));
 
-export default Cloudflare.Worker(
+export const Worker = Cloudflare.Worker(
 	"Worker",
 	{ main: import.meta.path },
 	Effect.gen(function* () {
@@ -32,3 +32,5 @@ export default Cloudflare.Worker(
 		);
 	}).pipe(Effect.provide(Cloudflare.SecretBindingLive)),
 );
+
+export default Worker;

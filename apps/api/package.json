@@ -3,6 +3,9 @@
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
+	"exports": {
+		"./worker": "./src/worker.ts"
+	},
 	"scripts": {
 		"deploy": "alchemy deploy",
 		"dev": "alchemy dev",

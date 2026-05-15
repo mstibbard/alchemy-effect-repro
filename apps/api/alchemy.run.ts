@@ -6,7 +6,7 @@ import { Store } from "./src/secret.ts";
 import Worker from "./src/worker.ts";
 
 export default Alchemy.Stack(
-	"AlchemyRepro",
+	"AlchemyReproApi",
 	{
 		providers: Cloudflare.providers(),
 		state: Cloudflare.state(),
