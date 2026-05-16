@@ -10,7 +10,8 @@
 		"deploy": "alchemy deploy",
 		"dev": "vite dev --port 3000",
 		"preview": "vite preview",
-		"test": "vitest run"
+		"test": "vitest run",
+		"typecheck": "tsgo --noEmit"
 	},
 	"dependencies": {
 		"@repo/api": "workspace:*",

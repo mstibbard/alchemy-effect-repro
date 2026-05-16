@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"exports": {
-		"./worker": "./src/worker.ts"
+		"./*": "./src/infra/*.ts"
 	},
 	"scripts": {
 		"deploy": "alchemy deploy",

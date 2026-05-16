@@ -2,8 +2,8 @@ import * as Alchemy from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 
-import { Store } from "./src/secret.ts";
-import Worker from "./src/worker.ts";
+import { Store } from "./src/infra/secret.ts";
+import Worker from "./src/infra/worker.ts";
 
 export default Alchemy.Stack(
 	"AlchemyReproApi",

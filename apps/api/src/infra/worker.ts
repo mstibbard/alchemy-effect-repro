@@ -6,8 +6,8 @@ import * as HttpPlatform from "effect/unstable/http/HttpPlatform";
 import * as HttpRouter from "effect/unstable/http/HttpRouter";
 import { RpcSerialization, RpcServer } from "effect/unstable/rpc";
 
-import { TaskApiLive } from "./http.ts";
-import { TaskRpc, TaskRpcLive } from "./rpc.ts";
+import { TaskApiLive } from "../http.ts";
+import { TaskRpc, TaskRpcLive } from "../rpc.ts";
 import { ExampleSecret } from "./secret.ts";
 
 const AppLive = Layer.mergeAll(
