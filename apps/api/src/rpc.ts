@@ -4,7 +4,7 @@ import { Rpc, RpcGroup, RpcSerialization, RpcServer } from "effect/unstable/rpc"
 
 import { Task, TaskNotFound, CreateTaskFailed } from "./task.ts";
 
-const getTask = Rpc.make("getTask", {
+export const getTask = Rpc.make("getTask", {
 	success: Task,
 	error: TaskNotFound,
 	payload: {
@@ -12,7 +12,7 @@ const getTask = Rpc.make("getTask", {
 	},
 });
 
-const createTask = Rpc.make("createTask", {
+export const createTask = Rpc.make("createTask", {
 	success: Task,
 	error: CreateTaskFailed,
 	payload: {
@@ -22,28 +22,34 @@ const createTask = Rpc.make("createTask", {
 
 export class TaskRpc extends RpcGroup.make(getTask, createTask) {}
 
+export type TaskRpcRpcs = typeof getTask | typeof createTask;
+
 const tasks = new Map<string, Task>();
+
+export const getTaskEffect = ({ id }: Rpc.Payload<typeof getTask>) => {
+	const task = tasks.get(id);
+	if (!task) {
+		return Effect.fail(new TaskNotFound({ id }));
+	}
+	return Effect.succeed(task);
+};
+
+export const createTaskEffect = ({ title }: Rpc.Payload<typeof createTask>) =>
+	Effect.gen(function* () {
+		const task = new Task({
+			id: crypto.randomUUID(),
+			title,
+			completed: false,
+		});
+		tasks.set(task.id, task);
+		return task;
+	});
 
 export const TaskRpcLive = TaskRpc.toLayer(
 	Effect.gen(function* () {
 		return {
-			getTask: ({ id }) => {
-				const task = tasks.get(id);
-				if (!task) {
-					return Effect.fail(new TaskNotFound({ id }));
-				}
-				return Effect.succeed(task);
-			},
-			createTask: ({ title }) =>
-				Effect.gen(function* () {
-					const task = new Task({
-						id: crypto.randomUUID(),
-						title,
-						completed: false,
-					});
-					tasks.set(task.id, task);
-					return task;
-				}),
+			getTask: getTaskEffect,
+			createTask: createTaskEffect,
 		};
 	}),
 );

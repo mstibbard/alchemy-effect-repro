@@ -5,9 +5,11 @@ import * as Etag from "effect/unstable/http/Etag";
 import * as HttpPlatform from "effect/unstable/http/HttpPlatform";
 import * as HttpRouter from "effect/unstable/http/HttpRouter";
 import { RpcSerialization, RpcServer } from "effect/unstable/rpc";
+import type { FromClientEncoded, FromServerEncoded } from "effect/unstable/rpc/RpcMessage";
 
 import { TaskApiLive } from "../http.ts";
-import { TaskRpc, TaskRpcLive } from "../rpc.ts";
+import { makeNativeRpcHandler } from "../native-rpc.ts";
+import { TaskRpc, TaskRpcLive, type TaskRpcRpcs } from "../rpc.ts";
 import { ExampleSecret } from "./secret.ts";
 
 const AppLive = Layer.mergeAll(
@@ -20,17 +22,24 @@ const AppLive = Layer.mergeAll(
 	}),
 ).pipe(Layer.provide(TaskRpcLive), Layer.provide(RpcSerialization.layerJson));
 
-export const Worker = Cloudflare.Worker(
-	"Worker",
-	{ main: import.meta.path },
-	Effect.gen(function* () {
-		const _secret = yield* Cloudflare.Secret.bind(ExampleSecret);
+export interface WorkerShape {
+	effectRpc: (request: FromClientEncoded) => Effect.Effect<ReadonlyArray<FromServerEncoded>>;
+}
 
-		return yield* HttpRouter.toHttpEffect(AppLive).pipe(
-			Effect.map((fetch) => ({ fetch })),
+export class Worker extends Cloudflare.Worker<Worker, WorkerShape>()("Worker", { main: import.meta.path }) {}
+
+export default Worker.make(
+	Effect.gen(function* () {
+		yield* Cloudflare.Secret.bind(ExampleSecret);
+		const fetch = yield* HttpRouter.toHttpEffect(AppLive).pipe(
 			Effect.provide(Layer.mergeAll(HttpPlatform.layer, Etag.layer)),
 		);
+
+		const effectRpc = makeNativeRpcHandler<TaskRpcRpcs>(TaskRpc);
+
+		return Worker.of({
+			fetch,
+			effectRpc: (request) => effectRpc(request).pipe(Effect.provide(TaskRpcLive), Effect.scoped),
+		});
 	}).pipe(Effect.provide(Cloudflare.SecretBindingLive)),
 );
-
-export default Worker;

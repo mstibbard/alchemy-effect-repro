@@ -1,7 +1,7 @@
 {
 	"$schema": "./node_modules/oxfmt/configuration_schema.json",
 	"endOfLine": "lf",
-	"ignorePatterns": ["dist/**", "*.min.js"],
+	"ignorePatterns": ["dist/**", "*.min.js", "*.gen.ts"],
 	"printWidth": 120,
 	"semi": true,
 	"singleQuote": false,

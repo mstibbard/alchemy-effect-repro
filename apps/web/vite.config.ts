@@ -6,6 +6,11 @@ import { defineConfig } from "vite";
 
 const config = defineConfig({
 	resolve: { tsconfigPaths: true },
+	build: {
+		rollupOptions: {
+			external: ["cloudflare:workers"],
+		},
+	},
 	plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact()],
 });
 

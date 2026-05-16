@@ -4,6 +4,8 @@
 	"private": true,
 	"type": "module",
 	"exports": {
+		"./native-rpc": "./src/native-rpc.ts",
+		"./rpc": "./src/rpc.ts",
 		"./*": "./src/infra/*.ts"
 	},
 	"scripts": {
