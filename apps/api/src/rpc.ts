@@ -9,6 +9,7 @@ export const TaskRpcLive = TaskRpc.toLayer(
 	Effect.gen(function* () {
 		const tasks = yield* TaskOperations;
 		return {
+			listTasks: () => tasks.list,
 			getTask: tasks.get,
 			createTask: tasks.create,
 		};

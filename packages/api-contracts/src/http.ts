@@ -1,9 +1,11 @@
-import { Task, TaskNotFound } from "@repo/domain/task";
+import { TaskNotFound } from "@repo/domain/task";
 import * as Schema from "effect/Schema";
 import * as HttpApi from "effect/unstable/httpapi/HttpApi";
 import * as HttpApiEndpoint from "effect/unstable/httpapi/HttpApiEndpoint";
 import * as HttpApiGroup from "effect/unstable/httpapi/HttpApiGroup";
 import * as HttpApiSchema from "effect/unstable/httpapi/HttpApiSchema";
+
+import { TaskOperationContract } from "./task-operation-contract.ts";
 
 export class PublicTaskUnavailable extends Schema.TaggedClass<PublicTaskUnavailable>()("TaskUnavailable", {
 	message: Schema.String,
@@ -12,25 +14,21 @@ export class PublicTaskUnavailable extends Schema.TaggedClass<PublicTaskUnavaila
 const taskNotFoundHttp = TaskNotFound.pipe(HttpApiSchema.status("NotFound"));
 const taskUnavailableHttp = PublicTaskUnavailable.pipe(HttpApiSchema.status("InternalServerError"));
 
-const getTaskHttp = HttpApiEndpoint.get("getTask", "/:id", {
-	params: {
-		id: Schema.String,
-	},
-	success: Task,
+const getTaskHttp = HttpApiEndpoint.get(TaskOperationContract.get.name, "/:id", {
+	params: TaskOperationContract.get.input,
+	success: TaskOperationContract.get.success,
 	error: [taskNotFoundHttp, taskUnavailableHttp],
 });
 
-const listTasksHttp = HttpApiEndpoint.get("listTasks", "/", {
-	success: Schema.Array(Task),
+const listTasksHttp = HttpApiEndpoint.get(TaskOperationContract.list.name, "/", {
+	success: TaskOperationContract.list.success,
 	error: taskUnavailableHttp,
 });
 
-const createTaskHttp = HttpApiEndpoint.post("createTask", "/", {
-	success: Task,
+const createTaskHttp = HttpApiEndpoint.post(TaskOperationContract.create.name, "/", {
+	success: TaskOperationContract.create.success,
 	error: taskUnavailableHttp,
-	payload: Schema.Struct({
-		title: Schema.String,
-	}),
+	payload: TaskOperationContract.create.payload,
 });
 
 export const TaskApi = HttpApi.make("TaskApi").add(

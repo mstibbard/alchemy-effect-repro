@@ -8,6 +8,7 @@ import type { RpcClientError } from "effect/unstable/rpc/RpcClientError";
 import { Client } from "./client.ts";
 
 export interface TaskClientService {
+	readonly listTasks: (input: void) => Effect.Effect<ReadonlyArray<Task>, TaskUnavailable | RpcClientError>;
 	readonly createTask: (input: { readonly title: string }) => Effect.Effect<Task, TaskUnavailable | RpcClientError>;
 	readonly getTask: (input: {
 		readonly id: string;

@@ -7,6 +7,7 @@
 		"./client": "./src/client.ts",
 		"./http": "./src/http.ts",
 		"./rpc": "./src/rpc.ts",
+		"./task-operation-contract": "./src/task-operation-contract.ts",
 		"./task-client": "./src/task-client.ts"
 	},
 	"scripts": {

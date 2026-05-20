@@ -16,6 +16,10 @@ Unavailable Task persistence carries an internal cause for observability, but pu
 Effect RPC is an internal Task operation adapter and may expose internal Task operation error causes.
 _Avoid_: Repository operation, transport handler
 
+**Task operation contract**:
+The transport-independent shape of Task operations: operation names, inputs, successes, and internal operation errors. HTTP and RPC adapt the same Task operation contract rather than each defining Task operation shape.
+_Avoid_: HTTP contract, RPC contract
+
 ## Example Dialogue
 
 Developer: "When a Task is created, where does the incomplete default live?"
