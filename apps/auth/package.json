@@ -1,0 +1,22 @@
+{
+	"name": "@repo/auth",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./stack": "./src/infra/stack.ts",
+		"./worker": "./src/infra/worker.ts"
+	},
+	"scripts": {
+		"deploy": "alchemy deploy",
+		"dev": "alchemy dev",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"better-auth": "1.6.11",
+		"effect": "catalog:"
+	},
+	"devDependencies": {
+		"alchemy": "catalog:"
+	}
+}
