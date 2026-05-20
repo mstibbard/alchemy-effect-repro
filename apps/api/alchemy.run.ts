@@ -1,13 +1,12 @@
-import * as Alchemy from "alchemy";
 import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 
 import { ApiKv } from "./src/infra/kv.ts";
 import { Store } from "./src/infra/secret.ts";
+import { AlchemyReproApi } from "./src/infra/stack.ts";
 import WorkerLive, { Worker } from "./src/infra/worker.ts";
 
-export default Alchemy.Stack(
-	"AlchemyReproApi",
+export default AlchemyReproApi.make(
 	{
 		providers: Cloudflare.providers(),
 		state: Cloudflare.state(),

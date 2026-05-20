@@ -4,6 +4,7 @@
 	"private": true,
 	"type": "module",
 	"exports": {
+		"./client": "./src/client.ts",
 		"./rpc": "./src/rpc.ts",
 		"./*": "./src/infra/*.ts"
 	},

@@ -1,0 +1,27 @@
+{
+	"name": "@repo/web",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"sideEffects": false,
+	"scripts": {
+		"build": "vite build",
+		"deploy": "alchemy deploy",
+		"dev": "vite dev --port 3001",
+		"preview": "vite preview",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@repo/api": "workspace:*",
+		"alchemy": "catalog:",
+		"effect": "catalog:",
+		"react": "^19.2.6",
+		"react-dom": "^19.2.6",
+		"vite": "^8.0.11"
+	},
+	"devDependencies": {
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.1"
+	}
+}
