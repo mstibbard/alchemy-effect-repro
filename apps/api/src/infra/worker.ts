@@ -2,7 +2,7 @@ import * as Cloudflare from "alchemy/Cloudflare";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-import { makeWorkerFetch } from "../app.ts";
+import { makeWorkerFetch } from "../app-layer.ts";
 import { ApiKv } from "./kv.ts";
 import { ExampleSecret } from "./secret.ts";
 
