@@ -1,4 +1,4 @@
-import { makeTaskClientLive, TaskClient } from "@repo/api-contracts/task-client";
+import { Client, makeClientLive } from "@repo/api-contracts/client";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -13,7 +13,7 @@ export class ApiConfigError extends Schema.TaggedClass<ApiConfigError>()("ApiCon
 }) {}
 
 export class ApiConfig extends Context.Service<ApiConfig, typeof ApiConfigSchema.Type>()("ApiConfig") {}
-export { TaskClient };
+export { Client };
 
 export const ApiConfigLive = Layer.effect(ApiConfig)(
 	Schema.decodeUnknownEffect(ApiConfigSchema)({
@@ -21,9 +21,9 @@ export const ApiConfigLive = Layer.effect(ApiConfig)(
 	}).pipe(Effect.mapError((error) => new ApiConfigError({ message: String(error) }))),
 );
 
-export const TaskClientLive = Layer.effect(TaskClient)(
+export const ClientLive = Layer.effect(Client)(
 	Effect.gen(function* () {
 		const config = yield* ApiConfig;
-		return yield* TaskClient.pipe(Effect.provide(makeTaskClientLive(config.baseUrl.toString())));
+		return yield* Client.pipe(Effect.provide(makeClientLive(config.baseUrl.toString())));
 	}),
 ).pipe(Layer.provide(ApiConfigLive));

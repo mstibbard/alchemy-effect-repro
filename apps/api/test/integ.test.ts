@@ -1,4 +1,4 @@
-import { Client } from "@repo/api-contracts/client";
+import { makeClient } from "@repo/api-contracts/client";
 import { Task } from "@repo/domain/task";
 import { expect } from "bun:test";
 
@@ -52,7 +52,7 @@ test(
 	"creates and retrieves a task over rpc",
 	Effect.gen(function* () {
 		const { url } = yield* stack;
-		const client = yield* Client(url!);
+		const client = yield* makeClient(url!);
 
 		const created = yield* client.createTask({ title: "Write an RPC integration test" });
 		expect(created.title).toBe("Write an RPC integration test");

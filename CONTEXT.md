@@ -20,6 +20,10 @@ _Avoid_: Repository operation, transport handler
 The transport-independent shape of Task operations: operation names, inputs, successes, and internal operation errors. HTTP and RPC adapt the same Task operation contract rather than each defining Task operation shape.
 _Avoid_: HTTP contract, RPC contract
 
+**Client**:
+The single application client for internal RPC operations. It is not named after an entity; Task operations are methods on the shared Client until additional operation contracts are added.
+_Avoid_: Task client, entity client
+
 ## Example Dialogue
 
 Developer: "When a Task is created, where does the incomplete default live?"

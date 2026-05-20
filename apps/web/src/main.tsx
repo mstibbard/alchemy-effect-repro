@@ -2,16 +2,16 @@ import * as Effect from "effect/Effect";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { TaskClient, TaskClientLive } from "./task-client.ts";
+import { Client, ClientLive } from "./client.ts";
 
 const result = await Effect.gen(function* () {
-	const client = yield* TaskClient;
+	const client = yield* Client;
 	const created = yield* client.createTask({ title: "Created from web via RPC" });
 	const found = yield* client.getTask({ id: created.id });
 
 	return { created, found };
 }).pipe(
-	Effect.provide(TaskClientLive),
+	Effect.provide(ClientLive),
 	Effect.scoped,
 	Effect.runPromise,
 );
