@@ -5,8 +5,7 @@ import {
 	type TaskNotFound,
 	type TaskStorageFailed,
 } from "@repo/domain/task";
-import type * as Effect from "effect/Effect";
-import * as EffectRuntime from "effect/Effect";
+import * as Effect from "effect/Effect";
 
 export interface CreateTaskInput {
 	readonly title: string;
@@ -40,11 +39,11 @@ const unavailableUnlessNotFound = (error: TaskNotFound | TaskStorageFailed | Tas
 	error._tag === "TaskNotFound" ? error : unavailable(error);
 
 export const makeTaskOperations = <R>(tasks: TaskStore<R>, ids: IdGenerator): TaskOperations<R> => ({
-	list: tasks.list.pipe(EffectRuntime.mapError(unavailable)),
-	get: (input) => tasks.get(input).pipe(EffectRuntime.mapError(unavailableUnlessNotFound)),
+	list: tasks.list.pipe(Effect.mapError(unavailable)),
+	get: (input) => tasks.get(input).pipe(Effect.mapError(unavailableUnlessNotFound)),
 	create: ({ title }) =>
 		ids.nextUuid.pipe(
-			EffectRuntime.map(
+			Effect.map(
 				(id) =>
 					new Task({
 						id,
@@ -52,7 +51,7 @@ export const makeTaskOperations = <R>(tasks: TaskStore<R>, ids: IdGenerator): Ta
 						completed: false,
 					}),
 			),
-			EffectRuntime.flatMap(tasks.save),
-			EffectRuntime.mapError(unavailable),
+			Effect.flatMap(tasks.save),
+			Effect.mapError(unavailable),
 		),
 });
